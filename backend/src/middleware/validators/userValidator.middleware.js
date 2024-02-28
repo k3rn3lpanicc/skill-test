@@ -241,6 +241,25 @@ exports.validateLogin = [
         },
 ];
 
+exports.validateForgotPassword = [
+    body('email')
+        .exists()
+        .withMessage('Email is required')
+        .isEmail()
+        .withMessage('Must be a valid email')
+        .isLength({max: 50 })
+        .withMessage('Invite code should contain 50 characters')
+        .normalizeEmail(),
+        function(req,res,next) { 
+            var errorValidation = validationResult(req);
+            if ( errorValidation.errors.length !== 0 ) {
+                return res.send({response:false, message:errorValidation.errors[0].msg})
+            }
+            next()
+        },
+];
+
+
 exports.validateEmail = [
     body('email')
         .exists()

@@ -8,7 +8,7 @@ const auth = require('../../middleware/auth.middleware');
 const Role = require('../../utils/userRoles.utils');
 const awaitHandlerFactory = require('../../middleware/awaitHandlerFactory.middleware');
 
-const { createUserSchema, updateUserSchema, updatePasswordSchema, validateLogin, validateEmail} = require('../../middleware/validators/userValidator.middleware');
+const { createUserSchema, updateUserSchema, updatePasswordSchema, validateLogin, validateEmail, validateForgotPassword} = require('../../middleware/validators/userValidator.middleware');
 
 router.post('/emailverify', validateEmail, awaitHandlerFactory(userController.verifyEmail)); 
 router.post('/signup', createUserSchema , awaitHandlerFactory(userController.userSignup));
@@ -21,7 +21,7 @@ router.get('/whoami', auth(), awaitHandlerFactory(userController.getCurrentUser)
 router.patch('/id/:id', auth(Role.Super), updateUserSchema, awaitHandlerFactory(userController.updateUser));
 router.patch('/password', auth(), updatePasswordSchema, awaitHandlerFactory(userController.updatePassword));
 router.delete('/id/:id', auth(Role.Super), awaitHandlerFactory(userController.deleteUser));
-router.post('/forgotpassword', awaitHandlerFactory(userController.forgotPassword));
+router.post('/forgotpassword', validateForgotPassword, awaitHandlerFactory(userController.forgotPassword));
 router.patch('/resetpassword', updatePasswordSchema, auth(), awaitHandlerFactory(userController.resetPassword));
 
 module.exports = router;
