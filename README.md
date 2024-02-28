@@ -14,6 +14,7 @@
 
 - The Token type in the `Wallet - Send Tokens` sections is not correct, it has only these states: `ERC20`, `BEP20`, `UNKNOWN`. But the MATIC and BNB tokens are neither `ERC20` like nor unknown, they are `Native` tokens which is not included.
 - The private key of the wallet is stored in DB without encryption, this is not a good practice since if the backend has any vulnerability, that could led to lots of financial loss if hacked, the better practice is to encrypt the private key of the user with the password they choose, save the Hash(password) in user table, and ask the user his/her password when we want to do something with their wallet and decrypt the encrypted private key using the user's password and go on.
+- The private key is stored in local storage without any encryption also, which is not secure.
 - Memo is not included: In the Send section of the wallet, despite the transaction works and sends tokens as intended, the Memo part is not neither in the call to back-end nor in the transaction itself.
 - The network would change from Polygon to Binance when we refresh the page, its not a big deal but of course it would be annoying for the end user.
 
