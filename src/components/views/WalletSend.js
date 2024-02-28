@@ -10,7 +10,7 @@ import {SERVER_URL} from "../../constants/env";
 import openNotification from "../helpers/notification";
 import WalletSendModal from "../component/WalletSendModal";
 import WalletPresaleModal from "../component/WalletComponents/WalletPresaleModal";
-import {getTokenBaseInfo,getTokenType,getEstimatedGasLimit} from "../../utils/tokenUtils";
+import {getTokenBaseInfo,getTokenType,getEstimatedGasLimit, getGasPrice} from "../../utils/tokenUtils";
 import {PresaleContext} from '../providers/PresaleProvider';
 const { TextArea } = Input;
 const { Option } = Select;
@@ -26,6 +26,7 @@ function WalletSend(props) {
   const [sel, setSel] = useState(0)
   const [destination, setDestination] = useState("");
   const [estimatedGasLimit,setEstimatedGasLimit] = useState(21000);
+  const [estimateGasPrice, setGasPrice] = useState(30);
   const [sendModalShow,setSendModalShow] = useState(false);
   const [presaleModal, setPresaleModal] = useState(false);
   const presaleData = useContext(PresaleContext);
@@ -165,6 +166,9 @@ function WalletSend(props) {
       openNotification("Warn","check destination or amount!",false,null);
       return false;
     }
+    let gasPrice = await getGasPrice(
+      props.network.url
+    );
     let estimated = await getEstimatedGasLimit(
       props.tokensInfo[sel].address,
       props.network.url,
@@ -172,6 +176,7 @@ function WalletSend(props) {
       publicKey,
       amount);
     setEstimatedGasLimit(estimated);
+    setGasPrice(gasPrice);
     setSendModalShow(true)
   }
   const showSendModalForPresale = async()=>{
@@ -180,6 +185,9 @@ function WalletSend(props) {
       openNotification("Warn","check amount!",false,null);
       return false;
     }
+    let gasPrice = await getGasPrice(
+      props.network.url
+    );
     let estimated = await getEstimatedGasLimit(
       presaleData.presaleData.network.usdAddr,
       presaleData.presaleData.network.url,
@@ -187,6 +195,7 @@ function WalletSend(props) {
       publicKey,
       presaleData.presaleData.fromAmount);
     setEstimatedGasLimit(estimated);
+    setGasPrice(gasPrice);
     setPresaleModal(false);
     setSendModalShow(true)
   }
@@ -282,6 +291,7 @@ function WalletSend(props) {
         <WalletSendModal 
           amount={presaleMode?`${presaleData.presaleData.fromAmount} BUSD`:`${amount} ${props.tokensInfo[sel].name}`} 
           estimatedGasLimit={estimatedGasLimit} 
+          estimateGasPrice ={estimateGasPrice}
           confirm={presaleMode?sendPresaleToken:sendToken} 
           setModalShow={setSendModalShow}/>
       : null

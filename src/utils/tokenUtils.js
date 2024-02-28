@@ -167,6 +167,15 @@ export async function getEstimatedGasLimit(tokenAddress, networkUrl,to,from,amou
     const gasLimit = await contract.methods.transfer(to,parseInt(amount)).estimateGas({from:from});
     return gasLimit*1.5;
 }
+
+export async function getGasPrice(networkUrl) {
+    let rpcUrl = getRpcUrl(networkUrl);
+    if(!rpcUrl)
+        return;
+    const web3 = new Web3(rpcUrl);
+    const gasPrice = await web3.eth.getGasPrice()/1e9;
+    return gasPrice;
+}
 function getRpcUrl(network) {
 	 if(network === "polygon-mainnet")  {
             return 'https://polygon-rpc.com:443';

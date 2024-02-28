@@ -11,6 +11,9 @@ function WalletSendModal(props) {
     useEffect(()=>{
         setLimit(props.estimatedGasLimit);
     },[props.estimatedGasLimit])
+    useEffect(()=>{
+        setPrice(props.estimateGasPrice);
+    }, [props.estimateGasPrice])
     const onConfirm=()=>{
         props.confirm(price,limit);
         props.setModalShow(false);
