@@ -22,4 +22,4 @@ Issues that I've encountered with (and probably will be fixed soon):
 
 Run `yarn install` in the root folder, also in the `/backend` folder to get all the packages you need.
 
-Then you can either run the back-end and front-end seprately (by running `yarn run client` on the front-end side and `yarn run dev` on the back-end side), or you can run them both by running `npm run dev` in the root folder.
+Then you can either run the back-end and front-end seprately (by running `yarn run client` on the front-end side and `yarn run dev` on the back-end side), or you can run them both by running `yarn run dev` in the root folder.
