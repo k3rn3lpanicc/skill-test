@@ -68,7 +68,7 @@ class Wallet {
     constructor(network) {
         if(network === "polygon-mainnet")  {
             this.rpcURL = 'https://polygon-rpc.com:443';
-        }else if(network === "polygon-testnet"){
+        }else if(network === "polygon-testnet"){ 
             this.rpcURL = 'https://rpc-mumbai.maticvigil.com:443';
         }else if(network === "bsc-mainnet") {
             this.rpcURL = 'https://bsc-dataseed1.binance.org';
